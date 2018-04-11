@@ -1,0 +1,57 @@
+entity Vendor {
+	name String required,
+    owner_name String,
+    phone Integer required minlength(1) maxlength(10),
+    email String,
+    longitude String required,
+    latitude String required,
+    town_county String,
+    area String,
+    sells_product Boolean,
+    comments String,
+    vendor_type VendorType,
+    photo ImageBlob required
+}
+
+entity Survey {
+	question String required,
+    answers String,
+    published Boolean,
+    
+}
+
+entity Product {
+	title String required,
+    type String,
+    
+}
+
+entity Answer {
+	content String required,
+}
+
+
+enum VendorType {
+    KIOSK, DISTRIBUTOR, WHOLESALER
+}
+
+//One to many relationships
+relationship ManyToOne {
+	Answer{content} to Survey{question}
+    Answer{content} to Vendor{name}
+}
+//One to many relationships
+relationship ManyToMany {
+	Product{title} to Vendor{name}
+}
+
+// Set pagination options
+paginate * with infinite-scroll
+//paginate Client, Vehicle, Jobcard with pagination
+
+//dto * with mapstruct
+
+// Set service options to all except few
+//service all with serviceImpl except Employee, Job
+// Set an angular suffix
+angularSuffix * with kiosklinks
